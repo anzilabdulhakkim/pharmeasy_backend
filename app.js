@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const otpRoutes = require('./routes/otpRoutes');
+const cartRoutes = require('./routes/cartRoutes')
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/otp', otpRoutes);
+app.use('/cart', cartRoutes);
 
 // Global Error Handling Middleware
 app.use((err, req, res, next) => {
