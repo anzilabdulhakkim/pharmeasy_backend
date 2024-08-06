@@ -1,15 +1,16 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const connection = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const otpRoutes = require('./routes/otpRoutes');
-const cartRoutes = require('./routes/cartRoutes')
+const cartRoutes = require('./routes/cartRoutes');
 
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3030;
 
 app.use(express.json());
 app.use(cors());
@@ -31,19 +32,14 @@ app.get('/health', (req, res) => {
     res.status(200).send('Server is up and running');
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000  // Timeout for initial connection
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
 // Start the server
-const PORT = process.env.PORT || 3030;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(PORT, async () => {
+    try {
+        await connection;
+        console.log(`Server running on port ${PORT} and connected to MongoDB.`);
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 });
 
 // Graceful Shutdown
