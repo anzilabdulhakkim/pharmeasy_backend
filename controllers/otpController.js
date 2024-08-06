@@ -1,4 +1,4 @@
-const OtpModel = require('../models/otpModel');
+const OtpModel = require('../models/OtpModel');
 const nodemailer = require('nodemailer');
 
 const transport = nodemailer.createTransport({
