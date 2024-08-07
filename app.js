@@ -42,25 +42,3 @@ app.listen(PORT, async () => {
     }
 });
 
-// Graceful Shutdown
-process.on('SIGINT', () => {
-    console.log('SIGINT signal received: closing HTTP server');
-    app.close(() => {
-        console.log('HTTP server closed');
-        mongoose.connection.close(false, () => {
-            console.log('MongoDB connection closed');
-            process.exit(0);
-        });
-    });
-});
-
-process.on('SIGTERM', () => {
-    console.log('SIGTERM signal received: closing HTTP server');
-    app.close(() => {
-        console.log('HTTP server closed');
-        mongoose.connection.close(false, () => {
-            console.log('MongoDB connection closed');
-            process.exit(0);
-        });
-    });
-});
